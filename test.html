@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS API for JavaScript Tutorials: Display a map</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <script>
+        require([
+            "esri/config",
+            "esri/Map",
+            "esri/views/MapView",
+
+            "esri/Basemap",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/TileLayer",
+
+        ], function (esriConfig, Map, MapView, Basemap, VectorTileLayer, TileLayer) {
+
+            esriConfig.apiKey = "dbf35f5a51ab1385555f178d3177d0e9fb96d6c0d2b5d8e3d621fb1c20666687";
+
+            const map = new Map({
+                basemap: "arcgis-topographic" // Basemap layer service
+            });
+
+            const view = new MapView({  // map view
+                map: map,
+                center: [-118.805, 34.027], // Longitude, latitude
+                zoom: 13, // Zoom level
+                container: "viewDiv" // Div element
+            });
+
+            const basemapToggle = new BasemapToggle({ //base map toggel
+                view: view,
+                nextBasemap: "arcgis-imagery"
+            });
+
+            view.ui.add(basemapToggle, "bottom-right");
+
+            const basemapGallery = new BasemapGallery({
+                view: view,
+                source: {
+                    query: {
+                        title: '"World Basemaps for Developers" AND owner:esri'
+                    }
+                }
+            });
+
+            view.ui.add(basemapGallery, "top-right"); // Add to the view
+
+
+
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
